@@ -1,18 +1,13 @@
 @import '../../../styles/settings.scss';
 
-.header {
-  background-color: grey;
-
-  min-height: 12vh;
+.footer {
+  background-color: #282c34;
+  min-height: 5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(1px + 2vmin);
+  font-size: 10px;
   color: white;
   text-align: center;
-}
-
-.appBar {
-  background-color: #282c34;
 }
