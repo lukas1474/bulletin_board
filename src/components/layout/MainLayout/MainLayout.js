@@ -6,37 +6,41 @@ import clsx from 'clsx';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { connect } from 'react-redux';
+import { changeUser } from '../../../redux/userRedux';
 
 import styles from './MainLayout.module.scss';
 
-const Component = ({className, children}) => (
-  <div className={clsx(className, styles.root)}>
-    <Header />
-    <h2>MainLayout</h2>
-    {children}
-    <Footer />
-  </div>
-);
+const Component = ({ className, children, changeUser }) => {
+  console.log(changeUser);
+  return (
+    <div className={clsx(className, styles.root)}>
+      <Header changeUserDispatch={changeUser} />
+      <h2>MainLayout</h2>
+      {children}
+      <Footer />
+    </div>
+  );
+};
 
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  changeUser: PropTypes.func,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  // someProp: reduxSelector(state),
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const mapDispatchToProps = dispatch => ({
+  changeUser: arg => dispatch(changeUser(arg)),
+});
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  Component as MainLayout,
-  // Container as MainLayout,
+  // Component as MainLayout,
+  Container as MainLayout,
   Component as MainLayoutComponent,
 };
