@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { NavLink } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import { getAll } from '../../../redux/userRedux';
+import { connect } from 'react-redux';
 
 import clsx from 'clsx';
-
 import styles from './PageNav.module.scss';
 
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import ListSubheader from '@material-ui/core/ListSubheader';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -22,36 +20,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({ className, changeUserDispatch }) => {
+const Component = ({ className, changeUserDispatch, users }) => {
   const classes = useStyles();
 
   return (
-    <div className={clsx(className, styles.root)}>
+    <div className={clsx(className, styles.component)}>
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="grouped-native-select">Zaloguj się</InputLabel>
-        <Select native defaultValue="" onChange={changeUserDispatch} id="grouped-native-select">
-          <option aria-label="None" value="" />
+        <Select native defaultValue="" onChange={changeUserDispatch} id="grouped-native-select" className={styles.option}>
           <optgroup label="Użytkownicy">
-            <option value={1}>Niezalogowany</option>
-            <option value={2}>Jan Latkowski</option>
-            <option value={3}>Anna Łoza</option>
-            <option value={4}>Administrator</option>
+            {users && users.map(user => (
+              <option value={1} key={user.id} active={user.active} >
+                {user.name} / {user.role}
+              </option>
+            ))}
           </optgroup>
         </Select>
+        <nav>
+          <Button className={styles.link} component={NavLink} exact to={`${process.env.PUBLIC_URL}/`} activeClassName='active'>Home</Button>
+        </nav>
       </FormControl>
-      <nav className={clsx(className, styles.component)}>
-        <Button className={styles.link} component={NavLink} exact to={`${process.env.PUBLIC_URL}/`} activeClassName='active'>Home</Button>
-      </nav>
     </div>
   );
 };
 
 Component.propTypes = {
   className: PropTypes.string,
-  changeUserDispatch: PropTypes.func.isRequired,
+  changeUserDispatch: PropTypes.func,
+  users: PropTypes.string,
 };
 
+const mapStateToProps = state => ({
+  users: getAll(state),
+});
+
+const Container = connect(mapStateToProps)(Component);
+
 export {
-  Component as PageNav,
+  Container as PageNav,
+  // Component as PageNav,
   Component as PageNavComponent,
 };

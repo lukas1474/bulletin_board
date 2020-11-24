@@ -13,14 +13,14 @@ import styles from './Header.module.scss';
 const Component = ({ className, changeUserDispatch }) => {
   return (
     <div className={clsx(className, styles.header)}>
-      <AppBar className={styles.appBar}>
-        <Container maxWidth='lg'>
+      <Container maxWidth='lg'>
+        <AppBar className={styles.appBar}>
           <Toolbar disableGutters>
-            <PageNav changeUserDispatch = {changeUserDispatch} />
+            <PageNav changeUserDispatch={changeUserDispatch} />
           </Toolbar>
-        </Container>
-      </AppBar>
-    </div>
+        </AppBar>
+      </Container>
+    </div >
   );
 };
 

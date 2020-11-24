@@ -16,7 +16,6 @@ const Component = ({ className, children, changeUser }) => {
   return (
     <div className={clsx(className, styles.root)}>
       <Header changeUserDispatch={changeUser} />
-      <h2>MainLayout</h2>
       {children}
       <Footer />
     </div>
@@ -30,7 +29,6 @@ Component.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  // someProp: reduxSelector(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -40,7 +38,6 @@ const mapDispatchToProps = dispatch => ({
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  // Component as MainLayout,
   Container as MainLayout,
   Component as MainLayoutComponent,
 };

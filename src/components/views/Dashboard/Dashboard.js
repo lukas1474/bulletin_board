@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
-// import styles from './Dashboard.module.scss';
+import styles from './Dashboard.module.scss';
 
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -27,23 +27,24 @@ const useStyles = makeStyles((theme) => ({
 
 const Component = ({ className, children, posts }) => {
   const classes = useStyles();
-
   return (
-    <div className={clsx(className, classes.root)}>
-      <Container maxWidth='lg'>
-        <Grid container spacing={3}>
-          {posts && posts.map(post => (
-            <Grid key={post.id} item xs={6} sm={3}>
-              <Paper className={classes.paper}>
-                <h2>{post.title}</h2>
-                <p>{post.description}</p>
-                <p>{post.author}</p>
-              </Paper>
-            </Grid>
-          ))}
-          {children}
-        </Grid>
-      </Container>
+    <div className={clsx(className, styles.root)}>
+      <Paper className={clsx(className, styles.component)}>
+        <Container maxWidth='lg'>
+          <Grid container spacing={3}>
+            {posts && posts.map(post => (
+              <Grid key={post.id} item xs={6} sm={3}>
+                <Paper className={classes.paper}>
+                  <h2>{post.title}</h2>
+                  <p>{post.description}</p>
+                  <p>{post.author}</p>
+                </Paper>
+              </Grid>
+            ))}
+            {children}
+          </Grid>
+        </Container>
+      </Paper>
     </div>
   );
 };

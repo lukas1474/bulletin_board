@@ -1,8 +1,6 @@
 @import '../../../styles/settings.scss';
 
 .header {
-  background-color: grey;
-
   min-height: 12vh;
   display: flex;
   flex-direction: column;
@@ -13,6 +11,6 @@
   text-align: center;
 }
 
-// .appBar {
-//   background-color: #282c34;
-// }
+.appBar {
+  background-color:  #282c34;
+}

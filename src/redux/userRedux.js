@@ -1,5 +1,6 @@
 /* selectors */
-// export const getAll = ({posts}) => posts.data;
+export const getAll = ({users}) => users.data;
+export const getActive = ({users}) => users.active;
 
 /* action name creator */
 const reducerName = 'users';
@@ -20,6 +21,7 @@ export const reducer = (statePart = [], action = {}) => {
       console.log(action);
       return {
         ...statePart,
+        active: action.payload,
       };
     }
     default:
