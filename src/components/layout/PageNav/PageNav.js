@@ -9,16 +9,16 @@ import clsx from 'clsx';
 import styles from './PageNav.module.scss';
 
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   formControl: {
+//     margin: theme.spacing(1),
+//     minWidth: 120,
+//   },
+// }));
 
 // changeUser = (payload) => {
 //   console.log('user', payload);
@@ -26,35 +26,44 @@ const useStyles = makeStyles((theme) => ({
 
 //   sendStatus({id: payload.id, name: payload.name, role: payload.role, active: payload.active});
 // };
+class Component extends React.Component {
 
-const Component = ({ className, changeUserDispatch, users, loggedUser }) => {
+  changeUser(payload) {
+    console.log(payload);
+    const { sendStatus } =this.props;
 
+    sendStatus({id: payload.id, name: payload.name, role: payload.role, active: payload.active});
+  }
 
+  render() {
 
-  const classes = useStyles();
+    const { className, users, children, loggedUser } = this.props;
 
-  return (
-    <div className={clsx(className, styles.component)}>
-      <FormControl className={classes.formControl}>
-        <Select native defaultValue="" onChange={changeUserDispatch} id="grouped-native-select" className={styles.option}>
-          <optgroup label="Użytkownicy" >
-            {users && users.map(user => (
-              <option key={user.id} value={user.active} >
-                {user.name} / {user.role}
-              </option>
-            ))}
-          </optgroup>
-        </Select>
-        <nav>
-          <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active'>Home</Button>
-        </nav>
-        {loggedUser ? <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active'>Logout</Button> : <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active' >Login</Button> }
-      </FormControl>
-    </div>
-  );
-};
+    return (
+      <div className={clsx(className, styles.component)}>
+        <FormControl className={styles.formControl}>
+          <Select native defaultValue="" onChange={(payload) => this.changeUser(payload)} id="grouped-native-select" className={styles.option}>
+            <optgroup label="Użytkownicy" >
+              {users && users.map(user => (
+                <option key={user.id} role={user.role} name={user.name} id={user.id} active={user.active.toString()} >
+                  {user.name} / {user.role}
+                </option>
+              ))}
+            </optgroup>
+          </Select>
+          <nav>
+            <Button className={styles.link} variant="contained" color="secondary" href="/" activeClassName='active'>Home</Button>
+          </nav>
+          {loggedUser ? <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active'>Logout</Button> : <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active' >Login</Button>}
+        </FormControl>
+        {children}
+      </div>
+    );
+  }
+}
 
 Component.propTypes = {
+  children: PropTypes.node,
   className: PropTypes.string,
   changeUserDispatch: PropTypes.func,
   users: PropTypes.array,

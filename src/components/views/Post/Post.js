@@ -32,7 +32,7 @@ const Component = ({ className, post }) => {
     <div className={clsx(className, styles.root)}>
       <Container maxWidth='lg' className={styles.container}>
         <Paper Paper className={classes.paper} elevation={3}>
-          <Button variant="contained" color="primary" href="/">
+          <Button variant="contained" color="secondary" href="/">
             Powrót
           </Button>
           <h2>{post.title}</h2>
