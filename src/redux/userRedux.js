@@ -1,7 +1,6 @@
 /* selectors */
 export const getAll = ({users}) => users.data;
 export const getActive = ({users}) => users.activeUser;
-export const getRole = ({users}) => users.active;
 
 /* action name creator */
 const reducerName = 'users';
@@ -19,10 +18,9 @@ export const changeUser = payload => ({ payload, type: CHANGE_USER });
 export const reducer = (statePart = [], action = {}) => {
   switch (action.type) {
     case CHANGE_USER: {
-      console.log(action);
       return {
         ...statePart,
-        active: action.payload,
+        activeUser: action.payload,
       };
     }
     default:

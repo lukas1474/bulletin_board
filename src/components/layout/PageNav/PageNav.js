@@ -28,24 +28,35 @@ import Select from '@material-ui/core/Select';
 // };
 class Component extends React.Component {
 
-  changeUser(payload) {
-    console.log(payload);
-    const { sendStatus } =this.props;
+  state = {
+    selectedValue: this.props.loggedUser.name,
+  };
 
-    sendStatus({id: payload.id, name: payload.name, role: payload.role, active: payload.active});
+  changeUser(event) {
+    console.log(event.target.value);
+    const { sendStatus, users } = this.props;
+
+    const payload = users.find(user => user.id == event.target.value);
+
+    console.log(payload);
+
+    if (payload) {
+      sendStatus(payload);
+    }
   }
 
   render() {
 
     const { className, users, children, loggedUser } = this.props;
+    const { selectedValue } = this.state;
 
     return (
       <div className={clsx(className, styles.component)}>
         <FormControl className={styles.formControl}>
-          <Select native defaultValue="" onChange={(payload) => this.changeUser(payload)} id="grouped-native-select" className={styles.option}>
+          <Select native value={selectedValue.name} onChange={(event) => this.changeUser(event)} id="grouped-native-select" className={styles.option}>
             <optgroup label="Użytkownicy" >
               {users && users.map(user => (
-                <option key={user.id} role={user.role} name={user.name} id={user.id} active={user.active.toString()} >
+                <option key={user.id} value={user.id}>
                   {user.name} / {user.role}
                 </option>
               ))}
@@ -54,7 +65,7 @@ class Component extends React.Component {
           <nav>
             <Button className={styles.link} variant="contained" color="secondary" href="/" activeClassName='active'>Home</Button>
           </nav>
-          {loggedUser ? <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active'>Logout</Button> : <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active' >Login</Button>}
+          {loggedUser.active ? <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active'>Logout</Button> : <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active' >Login</Button>}
         </FormControl>
         {children}
       </div>
