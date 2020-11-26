@@ -1,6 +1,6 @@
 /* selectors */
 export const getAll = ({users}) => users.data;
-export const getActive = ({users}) => users.active;
+export const getActive = ({users}) => users.activeUser;
 
 /* action name creator */
 const reducerName = 'users';

@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+
+import { connect } from 'react-redux';
 import { getAll } from '../../../redux/postsRedux';
+
+import { Posts } from '../Posts/Posts';
 
 import clsx from 'clsx';
 
-import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from './Dashboard.module.scss';
 
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -19,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(4),
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
@@ -29,22 +32,18 @@ const Component = ({ className, children, posts }) => {
   const classes = useStyles();
   return (
     <div className={clsx(className, styles.root)}>
-      <Paper className={clsx(className, styles.component)}>
-        <Container maxWidth='lg'>
-          <Grid container spacing={3}>
-            {posts && posts.map(post => (
-              <Grid key={post.id} item xs={6} sm={3}>
-                <Paper className={classes.paper}>
-                  <h2>{post.title}</h2>
-                  <p>{post.description}</p>
-                  <p>{post.author}</p>
-                </Paper>
-              </Grid>
-            ))}
-            {children}
-          </Grid>
-        </Container>
-      </Paper>
+      <Container maxWidth='lg'>
+        <Grid container spacing={3}>
+          {posts && posts.map(post => (
+            <Grid key={post.id} item xs={6} sm={3}>
+              <Paper className={classes.paper} elevation={3}>
+                <Posts {...post} />
+              </Paper>
+            </Grid>
+          ))}
+          {children}
+        </Grid>
+      </Container>
     </div>
   );
 };
@@ -52,7 +51,19 @@ const Component = ({ className, children, posts }) => {
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  posts: PropTypes.object,
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      author: PropTypes.string,
+      title: PropTypes.string,
+      description: PropTypes.string,
+      status: PropTypes.string,
+    })
+  ),
+};
+
+Component.defaultProps = {
+  posts: [],
 };
 
 const mapStateToProps = state => ({

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { NavLink } from 'react-router-dom';
-import { getAll } from '../../../redux/userRedux';
+import { changeUser, getAll, getActive } from '../../../redux/userRedux';
 import { connect } from 'react-redux';
 
 import clsx from 'clsx';
@@ -20,24 +20,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({ className, changeUserDispatch, users }) => {
+// changeUser = (payload) => {
+//   console.log('user', payload);
+//   const { sendStatus } = this.props;
+
+//   sendStatus({id: payload.id, name: payload.name, role: payload.role, active: payload.active});
+// };
+
+const Component = ({ className, changeUserDispatch, users, loggedUser }) => {
+
+
+
   const classes = useStyles();
 
   return (
     <div className={clsx(className, styles.component)}>
       <FormControl className={classes.formControl}>
         <Select native defaultValue="" onChange={changeUserDispatch} id="grouped-native-select" className={styles.option}>
-          <optgroup label="Użytkownicy">
+          <optgroup label="Użytkownicy" >
             {users && users.map(user => (
-              <option value={1} key={user.id} active={user.active} >
+              <option key={user.id} value={user.active} >
                 {user.name} / {user.role}
               </option>
             ))}
           </optgroup>
         </Select>
         <nav>
-          <Button className={styles.link} component={NavLink} exact to={`${process.env.PUBLIC_URL}/`} activeClassName='active'>Home</Button>
+          <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active'>Home</Button>
         </nav>
+        {loggedUser ? <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active'>Logout</Button> : <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active' >Login</Button> }
       </FormControl>
     </div>
   );
@@ -46,14 +57,21 @@ const Component = ({ className, changeUserDispatch, users }) => {
 Component.propTypes = {
   className: PropTypes.string,
   changeUserDispatch: PropTypes.func,
-  users: PropTypes.string,
+  users: PropTypes.array,
+  loggedUser: PropTypes.object,
+  sendStatus: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   users: getAll(state),
+  loggedUser: getActive(state),
 });
 
-const Container = connect(mapStateToProps)(Component);
+const mapDispatchToProps = (dispatch) => ({
+  sendStatus: (payload) => dispatch(changeUser(payload)),
+});
+
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
   Container as PageNav,
