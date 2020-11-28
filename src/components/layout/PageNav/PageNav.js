@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { NavLink } from 'react-router-dom';
-import { changeUser, getAll, getActive } from '../../../redux/userRedux';
+import { changeUser, getActive, getAllUsers } from '../../../redux/userRedux';
 import { connect } from 'react-redux';
 
 import clsx from 'clsx';
@@ -33,12 +33,12 @@ class Component extends React.Component {
   };
 
   changeUser(event) {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const { sendStatus, users } = this.props;
 
     const payload = users.find(user => user.id == event.target.value);
 
-    console.log(payload);
+    // console.log(payload);
 
     if (payload) {
       sendStatus(payload);
@@ -63,9 +63,9 @@ class Component extends React.Component {
             </optgroup>
           </Select>
           <nav>
-            <Button className={styles.link} variant="contained" color="secondary" href="/" activeClassName='active'>Home</Button>
+            <Button className={styles.link} variant="contained" color="secondary" href="/">Home</Button>
           </nav>
-          {loggedUser.active ? <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active'>Logout</Button> : <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active' >Login</Button>}
+          {loggedUser.active ? <Button className={styles.link} component={NavLink} exact to={`/`}>Logout</Button> : <Button className={styles.link} component={NavLink} exact to={`/`} activeClassName='active' >Login</Button>}
         </FormControl>
         {children}
       </div>
@@ -83,7 +83,7 @@ Component.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  users: getAll(state),
+  users: getAllUsers(state),
   loggedUser: getActive(state),
 });
 

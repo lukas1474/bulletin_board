@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import { getPostById } from '../../../redux/postsRedux';
+import { getAll, getPostById } from '../../../redux/postsRedux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from './Post.module.scss';
@@ -12,8 +12,6 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({ className, post }) => {
+const Component = ({ className, post}) => {
   const classes = useStyles();
   return (
     <div className={clsx(className, styles.root)}>

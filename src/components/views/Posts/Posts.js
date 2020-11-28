@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Post } from '../Post/Post';
 import { getAll } from '../../../redux/postsRedux';
 
 import clsx from 'clsx';
@@ -18,7 +17,6 @@ const Component = ({ className, id, author, description, title }) => (
       <h2>{title}</h2>
       <p>{description}</p>
       <p>{author}</p>
-      {props => <Post {...props} key={this.props.id} />}
     </Link>
   </div>
 );
@@ -44,7 +42,6 @@ const mapStateToProps = state => ({
 const Container = connect(mapStateToProps)(Component);
 
 export {
-  // Component as Posts,
   Container as Posts,
   Component as PostsComponent,
 };

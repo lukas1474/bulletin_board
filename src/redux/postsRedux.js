@@ -1,5 +1,8 @@
 /* selectors */
-export const getAll = ({posts}) => posts.data;
+export const getAll = ({posts, users}) => {
+  console.log(posts, users);
+  return posts.data;
+};
 
 export const getPostById = ({posts}, postId) => {
   const filtered = posts.data.filter(post => post.id == postId);
