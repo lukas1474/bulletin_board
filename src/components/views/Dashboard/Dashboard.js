@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { getAll } from '../../../redux/postsRedux';
-import { getActive, getUserById } from '../../../redux/userRedux';
+import { getAll, getAllFiltered } from '../../../redux/postsRedux';
+import { getActive } from '../../../redux/userRedux';
 
 import { Posts } from '../Posts/Posts';
 import { PostAdd } from '../../views/PostAdd/PostAdd';
@@ -40,13 +40,13 @@ const Component = ({ className, children, posts, loggedUser, filteredPosts }) =>
     <div className={clsx(className, styles.root)}>
       <Container maxWidth='lg'>
         <Grid container spacing={3}>
-          {filteredPosts && filteredPosts.filter(post => (
+          {filteredPosts.length ? filteredPosts.map(post => (
             <Grid key={post.id} item xs={6} sm={3}>
               <Paper className={classes.paper} elevation={3}>
                 <Posts {...post} />
               </Paper>
             </Grid>
-          ))}
+          )) : <p>There are no post. Please login. </p>}
           {loggedUser.active ?
             <Grid item xs={6} sm={3}>
               <Paper className={classes.paper} elevation={3}>
@@ -83,11 +83,12 @@ Component.defaultProps = {
   posts: [],
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
   const posts = getAll(state);
+  const filteredPosts = getAllFiltered(state);
   const loggedUser = getActive(state);
-  const filteredPosts = posts.author && posts.author.map(userId => getUserById(state, userId));
-  console.log(filteredPosts);
+  // const filteredPosts = posts.author && posts.author.map(userId => getUserById(state, userId));
+  // console.log(filteredPosts);
 
   return {
     posts,

@@ -1,7 +1,12 @@
 /* selectors */
-export const getAll = ({posts, users}) => {
-  console.log(posts, users);
-  return posts.data;
+export const getAll = ({posts}) => posts.data;
+
+export const getAllFiltered = ({posts, users}) => {
+
+  // const filteredPosts = posts.data.filter(posts => posts.author == users.activeUser.name);
+  // || item.status == 'published'
+  // console.log(posts.author);
+  return posts.data.filter(item => item.author == users.activeUser.name || users.activeUser.name == 'Administrator' );
 };
 
 export const getPostById = ({posts}, postId) => {
