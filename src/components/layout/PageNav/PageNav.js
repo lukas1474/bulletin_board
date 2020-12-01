@@ -13,19 +13,6 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-// const useStyles = makeStyles((theme) => ({
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120,
-//   },
-// }));
-
-// changeUser = (payload) => {
-//   console.log('user', payload);
-//   const { sendStatus } = this.props;
-
-//   sendStatus({id: payload.id, name: payload.name, role: payload.role, active: payload.active});
-// };
 class Component extends React.Component {
 
   state = {
