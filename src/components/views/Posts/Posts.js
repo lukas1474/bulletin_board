@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { getAll } from '../../../redux/postsRedux';
 import { connect } from 'react-redux';
-// import {Post} from '../Post/Post';
 
 import clsx from 'clsx';
 
@@ -24,7 +23,6 @@ Component.propTypes = {
   author: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
-  // status: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

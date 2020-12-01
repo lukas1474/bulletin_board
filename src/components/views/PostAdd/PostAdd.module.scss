@@ -1,4 +1,14 @@
 @import '../../../styles/settings.scss';
 
-// .root {
-// }
+.root {
+  margin: 10px;
+  width: 25ch;
+
+  .paper {
+    margin: 5px;
+    padding: 4px;
+    color: grey;
+    text-decoration: none;
+    text-align: center,
+  }
+}

@@ -68,13 +68,15 @@ class Component extends React.Component {
               </p>
             }
             {loggedUser.active ?
-              <Grid item xs={6} sm={3}>
-                <Paper className={styles.paper} elevation={3}>
-                  <PostAdd />
-                  <Button variant="contained" color="secondary">
+              <Grid item xs={6} sm={3} container spacing={3}>
+                <Container>
+                  <Paper className={styles.paper} elevation={3}>
+                    <PostAdd />
+                    {/* <Button variant="contained" color="secondary">
                     new announcement
-                  </Button>
-                </Paper>
+                  </Button> */}
+                  </Paper>
+                </Container>
               </Grid> : null}
             {children}
           </Grid>

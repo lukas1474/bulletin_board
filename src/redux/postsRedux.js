@@ -1,10 +1,9 @@
+import shortid from 'shortid';
+
 /* selectors */
 export const getAll = ({ posts }) => posts.data;
 
 export const getAllFiltered = ({ posts, users }) => {
-  // const filteredPosts = posts.data.filter(posts => posts.author == users.activeUser.name);
-  // || item.status == 'published'
-  // console.log(posts.author);
   return posts.data.filter(
     item =>
       item.author === users.activeUser.name
@@ -29,12 +28,14 @@ const FETCH_START = createActionName('FETCH_START');
 const FETCH_SUCCESS = createActionName('FETCH_SUCCESS');
 const FETCH_ERROR = createActionName('FETCH_ERROR');
 const SELECT_POST = createActionName('SELECT_POST');
+const ADD_POST = createActionName('ADD_POST');
 
 /* action creators */
 export const fetchStarted = payload => ({ payload, type: FETCH_START });
 export const fetchSuccess = payload => ({ payload, type: FETCH_SUCCESS });
 export const fetchError = payload => ({ payload, type: FETCH_ERROR });
-export const selectPost = payload => ({payload: payload, type: SELECT_POST });
+export const selectPost = payload => ({ payload: payload, type: SELECT_POST });
+export const addPost = payload => ({payload: { ...payload, id: shortid.generate() }, type: ADD_POST });
 
 /* thunk creators */
 
@@ -73,6 +74,16 @@ export const reducer = (statePart = [], action = {}) => {
       return {
         ...statePart,
         activePost: action.payload,
+      };
+    }
+    case ADD_POST: {
+      return {
+        ...statePart,
+        loading: {
+          active: false,
+          error: false,
+        },
+        data: [...statePart.data, action.payload],
       };
     }
     default:

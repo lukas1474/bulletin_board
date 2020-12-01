@@ -3,92 +3,124 @@ import PropTypes from 'prop-types';
 
 import clsx from 'clsx';
 
-// import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { connect } from 'react-redux';
+import { addPost } from '../../../redux/postsRedux';
+import { getActive } from '../../../redux/userRedux';
 
 import styles from './PostAdd.module.scss';
 
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(4),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
+class Component extends React.Component {
 
-const Component = ({ className, children }) => {
+  constructor(props) {
+    super(props);
+    this.state = { title: '', description: '', user: '' };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  const classes = useStyles();
-  // const [setValue] = React.useState('Controlled');
+  handleSubmit(event) {
+    const { addPost } = this.props;
 
-  // const handleChange = (event) => {
-  //   setValue(event.target.value);
-  // };
+    document.getElementsByName('addPost')[0].reset();
+    this.clearData();
+    addPost(this.state);
+    event.preventDefault();
 
-  return (
-    <div className={clsx(className, styles.root)}>
-      <h2>PostAdd</h2>
-      <Container maxWidth='lg'>
-        <Grid container spacing={3}>
-          <Grid item xs={6} sm={3}>
-            <form className={classes.root} noValidate autoComplete="off">
-              <div>
-                <TextField
-                  id="outlined-textarea"
-                  label="Title"
-                  placeholder="Type something"
-                  multiline
-                  variant="outlined"
-                />
-                <TextField
-                  id="outlined-multiline-static"
-                  label="Announcement"
-                  placeholder="Type something"
-                  multiline
-                  rows={4}
-                  defaultValue=""
-                  variant="outlined"
-                />
-              </div>
-            </form>
+    return false;
+  }
+
+  clearData() {
+    this.setState({
+      title: '',
+      description: '',
+      author: '',
+    });
+  }
+
+  handleChange(event) {
+    const { loggedUser } = this.props;
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({ [name]: value });
+    this.setState({ author: loggedUser.name });
+  }
+
+  render() {
+
+    const { className, children, loggedUser } = this.props;
+
+    return (
+      <div className={clsx(className, styles.root)}>
+        <h2>PostAdd</h2>
+        <Container maxWidth='lg'>
+          <Grid container spacing={3}>
+            <Grid item xs={6} sm={3}>
+              <form name="addPost" onSubmit={this.handleSubmit} onChange={this.handleChange} className={styles.root} noValidate autoComplete="off">
+                <div>
+                  <TextField
+                    id="outlined-textarea"
+                    label="Title"
+                    placeholder="Type something"
+                    multiline
+                    variant="outlined"
+                    name="title"
+                  />
+                  <TextField
+                    id="outlined-multiline-static"
+                    label="Announcement"
+                    placeholder="Type something"
+                    multiline
+                    rows={4}
+                    defaultValue=""
+                    variant="outlined"
+                    name="description"
+                  />
+                  <p className={`align-self-end`}>{loggedUser.name}</p>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                  >
+                    New annoucment
+                  </Button>
+                </div>
+              </form>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
+        </Container>
 
-      {children}
-    </div>
-  );
-};
+        {children}
+      </div>
+    );
+  }
+}
 
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  addPost: PropTypes.func,
+  loggedUser: PropTypes.object,
+  clearData: PropTypes.func,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = state => ({
+  loggedUser: getActive(state),
+});
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const mapDispatchToProps = dispatch => ({
+  addPost: (payload) => dispatch(addPost(payload)),
+});
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container1 = connect(mapStateToProps, mapDispatchToProps)(Component);
 
 export {
-  Component as PostAdd,
-  // Container as PostAdd,
+  Container1 as PostAdd,
   Component as PostAddComponent,
 };
