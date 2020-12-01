@@ -18,7 +18,7 @@ class Component extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { title: '', description: '', user: '' };
+    this.state = { title: '', description: '', author: '' };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -39,6 +39,8 @@ class Component extends React.Component {
       title: '',
       description: '',
       author: '',
+      email: '',
+      status: 'draft',
     });
   }
 
@@ -58,7 +60,6 @@ class Component extends React.Component {
 
     return (
       <div className={clsx(className, styles.root)}>
-        <h2>PostAdd</h2>
         <Container maxWidth='lg'>
           <Grid container spacing={3}>
             <Grid item xs={6} sm={3}>
@@ -67,7 +68,7 @@ class Component extends React.Component {
                   <TextField
                     id="outlined-textarea"
                     label="Title"
-                    placeholder="Type something"
+                    placeholder="Please write title"
                     multiline
                     variant="outlined"
                     name="title"
@@ -75,14 +76,21 @@ class Component extends React.Component {
                   <TextField
                     id="outlined-multiline-static"
                     label="Announcement"
-                    placeholder="Type something"
+                    placeholder="Please write description"
                     multiline
                     rows={4}
                     defaultValue=""
                     variant="outlined"
                     name="description"
                   />
-                  <p className={`align-self-end`}>{loggedUser.name}</p>
+                  {/* <TextField
+                    id="outlined-textarea"
+                    label="e-mail"
+                    placeholder="Please write email"
+                    variant="outlined"
+                    name="email"
+                  /> */}
+                  <p>{loggedUser.name}</p>
                   <Button
                     type="submit"
                     variant="contained"
@@ -95,7 +103,6 @@ class Component extends React.Component {
             </Grid>
           </Grid>
         </Container>
-
         {children}
       </div>
     );

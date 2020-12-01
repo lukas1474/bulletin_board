@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import { getPostById } from '../../../redux/postsRedux';
+import { getPostById, getActivePost } from '../../../redux/postsRedux';
+import { Link } from 'react-router-dom';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from './Post.module.scss';
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Component = ({ className, post}) => {
+const Component = ({ className, post, activePost }) => {
   const classes = useStyles();
   return (
     <div className={clsx(className, styles.root)}>
@@ -36,9 +37,11 @@ const Component = ({ className, post}) => {
           <h2>{post.title}</h2>
           <p>{post.description}</p>
           <p>{post.author}</p>
-          <Button variant="contained" color="primary" href="/">
-            Edytuj
-          </Button>
+          <Link key={post.id} to={`/post/${post.id}/edit`}>
+            <Button variant="contained" color="primary" >
+              Edytuj
+            </Button>
+          </Link>
         </Paper>
       </Container>
     </div>
@@ -49,10 +52,12 @@ Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   post: PropTypes.object,
+  activePost: PropTypes.any,
 };
 
 const mapStateToProps = (state, props) => ({
   post: getPostById(state, props.match.params.id),
+  activePost: getActivePost(state),
 });
 
 // const mapDispatchToProps = dispatch => ({

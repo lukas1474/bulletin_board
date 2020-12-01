@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Post } from '../Post/Post';
 import { getAll } from '../../../redux/postsRedux';
 import { connect } from 'react-redux';
 
@@ -8,12 +9,14 @@ import clsx from 'clsx';
 
 import styles from './Posts.module.scss';
 
-const Component = ({ className, author, description, title }) => {
+const Component = ({ className, author, description, title, status }) => {
   return (
     <div className={clsx(className, styles.root)}>
       <h2>{title}</h2>
       <p>{description}</p>
+      <p>{status}</p>
       <p>{author}</p>
+      {props => <Post {...props} key={this.props.id} />}
     </div>
   );
 };
@@ -23,6 +26,7 @@ Component.propTypes = {
   author: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
+  status: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

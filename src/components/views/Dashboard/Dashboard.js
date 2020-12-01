@@ -56,7 +56,7 @@ class Component extends React.Component {
         <Container maxWidth='lg'>
           <Grid container spacing={3}>
             {filteredPosts.length ? filteredPosts.map(post => {
-              return <Link key={post.id} to={`/post/${post.id}`} value={selectedPost} onChange={(event) => this.selectPost(event)} className={styles.links}>
+              return <Link key={post.id} to={`/post/${post.id}`} value={selectedPost} onClick={(event) => this.selectPost(event)} className={styles.links}>
                 <Paper className={styles.paper} elevation={3}>
                   <Posts {...post} />
                 </Paper>
