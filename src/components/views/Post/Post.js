@@ -35,8 +35,8 @@ const Component = ({ className, post, activePost }) => {
             Powrót
           </Button>
           <h2>{post.title}</h2>
-          <p>{post.description}</p>
-          <p>{post.author}</p>
+          <p className={styles.description}>{post.description}</p>
+          <p className={styles.author}>{post.author}</p>
           <Link key={post.id} to={`/post/${post.id}/edit`}>
             <Button variant="contained" color="primary" >
               Edytuj

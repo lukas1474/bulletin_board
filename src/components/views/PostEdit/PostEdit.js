@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { NotFound } from '../NotFound/NotFound';
 
 import { connect } from 'react-redux';
-import { editPost, getActivePost } from '../../../redux/postsRedux';
+import { editPost, getActivePost, getAll } from '../../../redux/postsRedux';
 import { getActive } from '../../../redux/userRedux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
@@ -23,12 +23,13 @@ class Component extends React.Component {
     super(props);
 
     this.state = {
-      id: this.props.activePost.id,
-      title: this.props.activePost.title,
-      description: this.props.activePost.description,
-      author: this.props.activePost.author,
+      id: this.props.id,
+      title: this.props.title,
+      description: this.props.description,
+      author: this.props.author,
       // status: this.props.state,
     };
+    // console.log(this.props.activePost.id);
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +37,7 @@ class Component extends React.Component {
 
   handleSubmit(event) {
     const { editPost, loggedUser, activePost } = this.props;
-    if (this.props.activePost.author === loggedUser.name || loggedUser.name === 'Administrator') {
+    if (this.props.author === loggedUser.name || loggedUser.name === 'Administrator') {
       if (!this.state.title || !this.state.description) {
         alert('Write something');
         event.preventDefault();
@@ -47,6 +48,7 @@ class Component extends React.Component {
     } else {
       alert('Login please');
     }
+    console.log(activePost);
     return false;
   }
 
@@ -59,16 +61,15 @@ class Component extends React.Component {
 
   render() {
 
-    const { className, children, loggedUser, activePost, post} = this.props;
+    const { className, children, loggedUser, activePost, post, author, posts} = this.props;
 
     return (
 
       <div className={clsx(className, styles.root)}>
         <h2>PostEdit</h2>
-        {activePost.author ?
+        {posts.author ?
           <Container maxWidth='lg'>
-
-            <Grid container spacing={3} item xs={6} sm={3}>
+            <Grid key={post.id} container spacing={3} item xs={6} sm={3}>
               <Paper>
                 <form name="editPost" onSubmit={this.handleSubmit} onChange={this.handleChange} className={styles.root} noValidate autoComplete="off">
                   <div>
@@ -88,7 +89,7 @@ class Component extends React.Component {
                       placeholder="Please write description"
                       multiline
                       rows={4}
-                      defaultValue=""
+                      // defaultValue=""
                       variant="outlined"
                       name="description"
                     />
@@ -112,7 +113,6 @@ class Component extends React.Component {
               </Paper>
             </Grid>
           </Container> : <NotFound />}
-
         {children}
       </div>
     );
@@ -127,16 +127,20 @@ Component.propTypes = {
   loggedUser: PropTypes.object,
   clearData: PropTypes.func,
   post: PropTypes.object,
-  // id: PropTypes.number,
-  // title: PropTypes.any,
-  // author: PropTypes.any,
-  // description: PropTypes.any,
+  id: PropTypes.number,
+  title: PropTypes.any,
+  author: PropTypes.any,
+  description: PropTypes.any,
+  posts: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   loggedUser: getActive(state),
   activePost: getActivePost(state),
+  posts: getAll(state),
+
 });
+
 
 const mapDispatchToProps = dispatch => ({
   editPost: (payload) => dispatch(editPost(payload)),

@@ -13,9 +13,9 @@ const Component = ({ className, author, description, title, status }) => {
   return (
     <div className={clsx(className, styles.root)}>
       <h2>{title}</h2>
-      <p>{description}</p>
-      <p>{status}</p>
-      <p>{author}</p>
+      <p className={styles.description}>{description}</p>
+      <p className={styles.status}>{status}</p>
+      <p className={styles.author}>{author}</p>
       {props => <Post {...props} key={this.props.id} />}
     </div>
   );

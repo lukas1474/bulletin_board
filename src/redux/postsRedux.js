@@ -36,7 +36,7 @@ const EDIT_POST = createActionName('EDIT_POST');
 export const fetchStarted = payload => ({ payload, type: FETCH_START });
 export const fetchSuccess = payload => ({ payload, type: FETCH_SUCCESS });
 export const fetchError = payload => ({ payload, type: FETCH_ERROR });
-export const selectPost = payload => ({ payload: payload, type: SELECT_POST });
+export const selectPost = payload => ({payload: payload, type: SELECT_POST });
 export const addPost = payload => ({payload: { ...payload, id: shortid.generate() }, type: ADD_POST });
 export const editPost = payload => ({payload: payload, type: EDIT_POST });
 

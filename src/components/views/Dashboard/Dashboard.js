@@ -13,7 +13,7 @@ import clsx from 'clsx';
 
 import styles from './Dashboard.module.scss';
 
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 // import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -44,6 +44,8 @@ class Component extends React.Component {
     if (payload) {
       sendActivePost(payload);
     }
+
+    console.log(sendActivePost(payload));
   }
 
   render() {
@@ -56,7 +58,7 @@ class Component extends React.Component {
         <Container maxWidth='lg'>
           <Grid container spacing={3}>
             {filteredPosts.length ? filteredPosts.map(post => {
-              return <Link key={post.id} to={`/post/${post.id}`} value={selectedPost} onClick={(event) => this.selectPost(event)} className={styles.links}>
+              return <Link key={post.id} to={`/post/${post.id}`} native value={selectedPost} onClick={(payload) => this.selectPost(post.id)} className={styles.links}>
                 <Paper className={styles.paper} elevation={3}>
                   <Posts {...post} />
                 </Paper>
@@ -70,12 +72,10 @@ class Component extends React.Component {
             {loggedUser.active ?
               <Grid item xs={6} sm={3} container spacing={3}>
                 <Container>
-                  <Paper className={styles.paper} elevation={3}>
-                    <PostAdd />
-                    {/* <Button variant="contained" color="secondary">
+                  <PostAdd />
+                  {/* <Button variant="contained" color="secondary">
                     new announcement
                   </Button> */}
-                  </Paper>
                 </Container>
               </Grid> : null}
             {children}
