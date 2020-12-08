@@ -66,7 +66,7 @@ class Component extends React.Component {
             })
               :
               <p>
-                There are no post. Please login.
+                There are no post. Pleas login.
               </p>
             }
             {loggedUser.active ?
